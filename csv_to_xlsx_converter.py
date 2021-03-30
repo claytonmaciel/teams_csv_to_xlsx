@@ -21,7 +21,7 @@ class App(QWidget):
     def openFileNameDialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self, "Choice an file of Microsoft Teams", "",
+        fileName, _ = QFileDialog.getOpenFileName(self, "Choice a exported grade file of Microsoft Teams", "",
                                                   "CSV (*.csv)", options=options)
         if fileName:
             path = str(fileName)[:int(str(fileName).rfind("/"))+1]
@@ -40,13 +40,13 @@ class App(QWidget):
                         pass
             dados['Soma'] = resultado
 
-            writer = ExcelWriter(path+'converted_gradesbook.xlsx')
+            writer = ExcelWriter(path+'converted_grades.xlsx')
             dados.to_excel(writer, 'grades')
             writer.save()
             msg = QMessageBox()
-            msg.setWindowTitle("Sucess")
+            msg.setWindowTitle("Sucess!")
             msg.setIcon(QMessageBox.Information)
-            msg.setText("SUCCESS! File saved with the name 'converted_gradesbook.xlsx', in the same place of the source file! ")
+            msg.setText("SUCCESS! File saved with the name 'converted_grades.xlsx', in the same place of the source file! ")
             msg.exec()
 
         sys.exit()
