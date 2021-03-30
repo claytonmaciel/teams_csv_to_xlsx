@@ -6,7 +6,7 @@ from pandas import ExcelWriter
 class App(QWidget):
     def __init__(self):
         super().__init__()
-        self.title = 'TeamsCSVToXLSX Converter'
+        self.title = 'TeamsCSVToXLSX Convert'
         self.initUI()
 
     def initUI(self):
