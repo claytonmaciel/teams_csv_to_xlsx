@@ -26,10 +26,18 @@ class App(QWidget):
         if fileName:
             path = str(fileName)[:int(str(fileName).rfind("/"))+1]
             dados = pd.read_csv(fileName)
-            dados["Nome"] = dados["First Name"] + " " + dados["Last Name"]
-            dados.drop(dados.filter(regex='Point|Feedback|First Name|Last Name|Email Address').columns, axis=1,
-                       inplace=True)
-            dados = dados[list(dados.columns.values)[::-1]]
+            
+            dados[dados.columns[0]] += " " + dados[dados.columns[1]]
+
+            list_col = [1,2]
+            for i in range(4, len(dados.columns.values), 3):
+                list_col.append(i)
+                list_col.append(i+1)
+
+            dados.drop(dados.columns[list_col], axis=1, inplace=True)
+
+            list_2 = [list(dados.columns.values)[0]] + list(dados.columns.values)[1:][::-1]
+            dados = dados[list_2]
 
             resultado = [0 for _ in range(dados.shape[0])]
             for i in range(dados.shape[0]):
@@ -38,7 +46,7 @@ class App(QWidget):
                         resultado[i] += int(dados.iloc[i][j])
                     except:
                         pass
-            dados['Soma'] = resultado
+            dados['Sum'] = resultado
 
             writer = ExcelWriter(path+'converted_grades.xlsx')
             dados.to_excel(writer, 'grades')
